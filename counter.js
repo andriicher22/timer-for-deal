@@ -1,21 +1,21 @@
-//set the time which your timer shouldn't reach
+// Set the time threshold which your timer shouldn't reach (in minutes)
 const minRemaining = 7;
-const minRemainingThreshold = minRemaining * 60 * 1000; //  minutes in milliseconds
+const minRemainingThreshold = minRemaining * 60 * 1000; // Threshold in milliseconds
 
 /**
- * Timer function
+ * Timer function to ensure at least 7 minutes remaining until the next hour
  */
 function countdownToNextHour() {
   const now = new Date();
-  //Set custom time to check
-  now.setMinutes(59);
+  // Set custom time to check (for testing purposes)
+  //now.setMinutes(59);
   console.log(now);
-  // Calculate remaining time till the end of hour
+  // Calculate remaining time until the end of the hour
   let timeRemaining = calculateRemainingTime(now);
-  console.log(timeRemaining / 1000 / 60)
+  console.log(timeRemaining / 1000 / 60);
 
   // Ensure at least 7 minutes remaining
-  if (timeRemaining < sevenMinutes) {
+  if (timeRemaining < minRemainingThreshold) {
     localCountdown(now);
   } else {
     // Set the remaining time in HTML
@@ -25,11 +25,14 @@ function countdownToNextHour() {
   }
 }
 
+/**
+ * Local countdown function to adjust the time if less than the threshold
+ */
 function localCountdown(now) {
-  console.log('Local countdown')
-  if (calculateRemainingTime(now) < sevenMinutes) {
+  console.log('Local countdown');
+  if (calculateRemainingTime(now) < minRemainingThreshold) {
     const nextHour = new Date(now);
-    nextHour.setHours(now.getHours() + 1, seven, 0, 0);
+    nextHour.setHours(now.getHours() + 1, minRemaining, 0, 0);
     setTimeDom(nextHour - now);
     setTimeout(() => localCountdown(new Date()), 1000);
   } else {
@@ -38,7 +41,7 @@ function localCountdown(now) {
 }
 
 /**
- * Calculates remaining milliseconds till the next hour
+ * Calculates the remaining milliseconds until the next hour
  */
 function calculateRemainingTime(date) {
   const nextHour = new Date(date);
@@ -47,7 +50,7 @@ function calculateRemainingTime(date) {
 }
 
 /**
- * Sets the time in the HTML document
+ * Sets the remaining time in the HTML document
  */
 function setTimeDom(timeRemaining) {
   const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
@@ -56,22 +59,13 @@ function setTimeDom(timeRemaining) {
 
   // Update the DOM elements in the HTML
   document.getElementById("hour").innerHTML = hours.toString().padStart(2, "0");
-  document.getElementById("minute").innerHTML = minutes
-    .toString()
-    .padStart(2, "0");
-  document.getElementById("second").innerHTML = seconds
-    .toString()
-    .padStart(2, "0");
+  document.getElementById("minute").innerHTML = minutes.toString().padStart(2, "0");
+  document.getElementById("second").innerHTML = seconds.toString().padStart(2, "0");
 
-  document.getElementById("hour2").innerHTML = hours
-    .toString()
-    .padStart(2, "0");
-  document.getElementById("minute2").innerHTML = minutes
-    .toString()
-    .padStart(2, "0");
-  document.getElementById("second2").innerHTML = seconds
-    .toString()
-    .padStart(2, "0");
+  document.getElementById("hour2").innerHTML = hours.toString().padStart(2, "0");
+  document.getElementById("minute2").innerHTML = minutes.toString().padStart(2, "0");
+  document.getElementById("second2").innerHTML = seconds.toString().padStart(2, "0");
 }
 
+// Start the countdown
 countdownToNextHour();
