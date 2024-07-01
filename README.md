@@ -17,4 +17,4 @@ Functions:
 
 - calculateRemainingTime(date): Calculates the remaining milliseconds until the next hour from a given date.
 
--setTimeDom(timeRemaining): Updates the HTML elements with the remaining hours, minutes, and seconds.
+- setTimeDom(timeRemaining): Updates the HTML elements with the remaining hours, minutes, and seconds.
